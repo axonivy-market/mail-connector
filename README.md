@@ -1,7 +1,7 @@
-# MY-PRODUCT-NAME
+# Mail Connector
 
-[![CI Build](https://github.com/axonivy-market/REPO-NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/axonivy-market/REPO-NAME/actions/workflows/ci.yml)
+[![CI Build](https://github.com/axonivy-market/mail-connector/actions/workflows/ci.yml/badge.svg)](https://github.com/axonivy-market/mail-connector/actions/workflows/ci.yml)
 
-"YOUR SHORT DESCRIPTION GOES HERE"
+A simple mail component designed to send and receive emails related to a specific case. All sent emails are automatically linked to the corresponding Ivy case
 
-Read our [documentation](MY-PRODUCT-NAME-product/README.md).
+Read our [documentation](mail-connector-product/README.md).

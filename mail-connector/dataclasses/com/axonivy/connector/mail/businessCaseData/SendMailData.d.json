@@ -1,0 +1,11 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "simpleName" : "SendMailData",
+  "namespace" : "com.axonivy.connector.mail.businessCaseData",
+  "isBusinessCaseData" : false,
+  "fields" : [ {
+    "name" : "mail",
+    "type" : "com.axonivy.connector.mail.businessData.Mail",
+    "modifiers" : [ "PERSISTENT" ]
+  } ]
+}

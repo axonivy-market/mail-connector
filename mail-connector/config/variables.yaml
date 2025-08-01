@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/12.0.0/variables.json
+Variables:
+  # number of re-sending mail when sent fail
+  mailLoopRepeatNumber: "2"
+  # number seconds delay before re-sending mail
+  mailLoopRepeatDelay: "10"
+  # Accepted file types. Separate by comma
+  allowFileTypes: jpg, pdf, xlsx, docx
+  # maximum size of uplaoded files in MB (fallback/default size is set to 10 MB)
+  maxUploadSize: "10"

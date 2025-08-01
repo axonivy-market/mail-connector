@@ -1,0 +1,53 @@
+/* Template selection */
+.template-selection-first>div,
+.template-selection-second>div,
+.template-selection-third>div {
+	padding: 0.5rem;
+}
+
+.template-selection-second,
+.template-selection-third {
+	vertical-align: top;
+}
+
+.template-select-panel .template-selection-options-group {
+	padding: 5px;
+	border: #bcbcbc 1px solid;
+	margin: 1px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 100%;
+	height: 220px;
+}
+
+.template-selection-options-group .template-selection-option {
+	margin: 0.5rem;
+	padding: 0.5em;
+	border: #eeeeee 1px solid;
+}
+
+.template-selection-option-icon {
+	width: 8rem;
+	margin-right: 1.5rem;
+}
+
+.template-selection-option-icon i.si {
+	font-size: 6rem;
+}
+
+.se-dialog-btn-check {
+	margin-right: 1.5rem;
+}
+
+.editor-template input.se-dialog-btn-check {
+	margin: auto;
+	line-height: normal;
+	width: 1.4rem;
+	height: 1.4rem;
+	margin-left: 0.5rem;
+}
+
+/* get rid of stickiness. The editor will always add stickiness after opening the editor in fullscreen. This would break the dialog */
+.se-toolbar.sun-editor-common.se-toolbar-sticky {
+	position: initial !important;
+}

@@ -1,0 +1,444 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
+  "id" : "18CED859A6758833",
+  "config" : {
+    "data" : "com.axonivy.connector.mail.businessCaseData.SendMailAsyncData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "RequestStart",
+      "name" : "sendMailAsync(Mail)",
+      "config" : {
+        "signature" : "sendMail",
+        "input" : {
+          "params" : [
+            { "name" : "mail", "type" : "com.axonivy.connector.mail.businessData.Mail", "desc" : "" }
+          ],
+          "map" : {
+            "out.mail" : "param.mail"
+          }
+        },
+        "request" : {
+          "isHttpRequestable" : false,
+          "isVisibleOnStartList" : false
+        },
+        "triggerable" : true,
+        "task" : {
+          "name" : "<%=ivy.cms.co(\"/Processes/SendMail/Tasks/SendingMail/name\")%>",
+          "category" : "Technical/MailSending",
+          "responsible" : {
+            "activator" : "SYSTEM"
+          },
+          "customFields" : [
+            { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+          ]
+        },
+        "case" : {
+          "name" : "<%=ivy.cms.co(\"/Processes/SendMail/name\")%>",
+          "description" : "<%=ivy.cms.co(\"/Processes/SendMail/description\")%>",
+          "category" : "Technical/MailSending",
+          "attachToBusinessCase" : false,
+          "customFields" : [
+            { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+          ]
+        }
+      },
+      "tags" : [
+        "connector"
+      ],
+      "visual" : {
+        "at" : { "x" : 112, "y" : 336 },
+        "labelOffset" : { "x" : 17, "y" : 41 }
+      },
+      "connect" : [
+        { "id" : "f2", "to" : "f29" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "TaskEnd",
+      "name" : "end",
+      "visual" : {
+        "at" : { "x" : 1256, "y" : 336 }
+      }
+    }, {
+      "id" : "f4",
+      "type" : "EMail",
+      "name" : "Send mail",
+      "config" : {
+        "headers" : {
+          "subject" : "<%=in.mail.subject%>",
+          "from" : "<%=in.mail.sender%>",
+          "to" : "<%=in.mail.recipient%>",
+          "cc" : "<%=in.mail.recipientCC%>",
+          "bcc" : "<%=in.mail.recipientBCC%>"
+        },
+        "message" : {
+          "body" : "<%=in.mail.body%>",
+          "contentType" : "text/html"
+        },
+        "attachments" : [
+          "in.attachments",
+          ""
+        ],
+        "exceptionHandler" : "f31"
+      },
+      "visual" : {
+        "at" : { "x" : 808, "y" : 336 }
+      },
+      "connect" : [
+        { "id" : "f5", "to" : "f18" }
+      ]
+    }, {
+      "id" : "f8",
+      "type" : "Script",
+      "name" : "Increase counter",
+      "config" : {
+        "output" : {
+          "code" : "in.counter++;"
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 936, "y" : 128 }
+      },
+      "connect" : [
+        { "id" : "f11", "to" : "f10", "via" : [ { "x" : 496, "y" : 128 } ] }
+      ]
+    }, {
+      "id" : "f10",
+      "type" : "Alternative",
+      "name" : "Number of attemp ok?",
+      "config" : {
+        "conditions" : {
+          "f12" : "in.counter <= ivy.var.mailLoopRepeatNumber.toNumber()",
+          "f14" : ""
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 440, "y" : 336 },
+        "labelOffset" : { "y" : 40 }
+      },
+      "connect" : [
+        { "id" : "f14", "to" : "f13", "via" : [ { "x" : 608, "y" : 464 } ], "var" : "in1" },
+        { "id" : "f12", "to" : "f3" }
+      ]
+    }, {
+      "id" : "f15",
+      "type" : "Script",
+      "name" : "Reset loop counter",
+      "config" : {
+        "output" : {
+          "code" : "in.counter = 0;"
+        },
+        "sudo" : true
+      },
+      "visual" : {
+        "at" : { "x" : 1112, "y" : 608 }
+      },
+      "connect" : [
+        { "id" : "f17", "to" : "f10", "via" : [ { "x" : 512, "y" : 608 } ], "label" : {
+            "name" : "retry sendMail",
+            "segment" : 1.1,
+            "offset" : { "x" : 135, "y" : 48 }
+          } }
+      ]
+    }, {
+      "id" : "f18",
+      "type" : "Script",
+      "name" : "Update status SENT",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.mail.service.MailService;",
+            "",
+            "in.mail = MailService.updateMailToSent(in.mail.id);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 984, "y" : 336 }
+      },
+      "connect" : [
+        { "id" : "f19", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f20",
+      "type" : "Script",
+      "name" : [
+        "Log error &",
+        "update status FAILED"
+      ],
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.mail.enums.MailStatus;",
+            "import com.axonivy.connector.mail.service.MailService;",
+            "import ch.ivyteam.ivy.bpm.error.BpmError;",
+            "",
+            "// create BPM Error & log it",
+            "BpmError bpmError = MailService.createSendMailError(in.exceptionText);",
+            "ivy.log.error(bpmError);",
+            "",
+            "ivy.task.customFields().stringField(\"mailErrorMessage\").set(bpmError.getErrorMessage());",
+            "",
+            "// update Mail to status FAILED",
+            "in.mail = MailService.updateMailToSMTPFailed(in.mail.id);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 800, "y" : 208 },
+        "description" : [
+          "- create BPM error",
+          "- log error",
+          " -update status FAILED"
+        ]
+      },
+      "connect" : [
+        { "id" : "f6", "to" : "f7" }
+      ]
+    }, {
+      "id" : "f22",
+      "type" : "DialogCall",
+      "name" : "ErrorMailDetails",
+      "config" : {
+        "dialog" : "com.axonivy.connector.mail.ErrorMailDetails:start(String)",
+        "call" : {
+          "map" : {
+            "param.mailId" : "in.mail.id"
+          }
+        },
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.retryAction" : "result.action"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 856, "y" : 464 },
+        "size" : { "width" : 168, "height" : 54 }
+      },
+      "connect" : [
+        { "id" : "f23", "to" : "f24" }
+      ]
+    }, {
+      "id" : "f24",
+      "type" : "Alternative",
+      "name" : "Retry task?",
+      "config" : {
+        "conditions" : {
+          "f25" : "in.#retryAction == com.axonivy.connector.mail.enums.RetryAction.RETRY"
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 1008, "y" : 464 },
+        "labelOffset" : { "x" : 40, "y" : 32 }
+      },
+      "connect" : [
+        { "id" : "f25", "to" : "f36", "var" : "in1" },
+        { "id" : "f26", "to" : "f1", "via" : [ { "x" : 1008, "y" : 400 }, { "x" : 1200, "y" : 400 }, { "x" : 1232, "y" : 360 } ] }
+      ]
+    }, {
+      "id" : "f13",
+      "type" : "TaskSwitchGateway",
+      "name" : "Email Fail Admin Task",
+      "config" : {
+        "tasks" : [ {
+            "id" : "TaskA",
+            "name" : "<%=ivy.cms.co(\"/Tasks/EmailFailAdminTask/name\")%>",
+            "description" : "<%=ivy.cms.co(\"/Tasks/EmailFailAdminTask/description\")%>",
+            "category" : "Technical/MailSendingError",
+            "responsible" : {
+              "activator" : "Admin"
+            }
+          } ]
+      },
+      "visual" : {
+        "at" : { "x" : 704, "y" : 464 },
+        "labelOffset" : { "x" : 8, "y" : 40 }
+      },
+      "connect" : [
+        { "id" : "f16", "to" : "f22", "condition" : "ivp==\"TaskA.ivp\"" }
+      ]
+    }, {
+      "id" : "f31",
+      "type" : "ErrorStartEvent",
+      "name" : "SendMailException",
+      "config" : {
+        "output" : {
+          "code" : [
+            "// log error",
+            "ivy.log.error(error);",
+            "",
+            "// facilitate error",
+            "out.exceptionText = exception;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 664, "y" : 208 },
+        "labelOffset" : { "x" : 13, "y" : 33 },
+        "color" : "red"
+      },
+      "connect" : [
+        { "id" : "f32", "to" : "f20" }
+      ]
+    }, {
+      "id" : "f7",
+      "type" : "Alternative",
+      "name" : "Repeated?",
+      "config" : {
+        "conditions" : {
+          "f33" : "in.counter < ivy.var.mailLoopRepeatNumber.toNumber()",
+          "f34" : ""
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 936, "y" : 208 },
+        "labelOffset" : { "x" : 56, "y" : 24 }
+      },
+      "connect" : [
+        { "id" : "f34", "to" : "f8" },
+        { "id" : "f33", "to" : "f27", "var" : "in1" }
+      ]
+    }, {
+      "id" : "f36",
+      "type" : "TaskSwitchEvent",
+      "name" : "Retry SendMail",
+      "config" : {
+        "task" : {
+          "name" : "<%=ivy.cms.co(\"/Tasks/RetrySendingMail/name\")%>",
+          "description" : "<%=ivy.cms.co(\"/Tasks/RetrySendingMail/description\")%>",
+          "category" : "Technical/MailSending",
+          "responsible" : {
+            "activator" : "SYSTEM"
+          },
+          "skipTasklist" : true,
+          "notification" : {
+            "suppress" : true
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 1112, "y" : 464 },
+        "labelOffset" : { "x" : 65, "y" : 33 }
+      },
+      "connect" : [
+        { "id" : "f35", "to" : "f15" }
+      ]
+    }, {
+      "id" : "f29",
+      "type" : "Script",
+      "name" : [
+        "Update status OUTBOX",
+        "and check valid sender"
+      ],
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.mail.service.MailService;",
+            "import com.axonivy.connector.mail.enums.MailStatus;",
+            "",
+            "if (in.mail.#status == null) {",
+            "  in.mail = MailService.updateMailToOutBox(in.mail.id);",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 280, "y" : 336 },
+        "size" : { "width" : 176, "height" : 64 }
+      },
+      "connect" : [
+        { "id" : "f30", "to" : "f10" }
+      ]
+    }, {
+      "id" : "f27",
+      "type" : "TaskSwitchEvent",
+      "name" : "Sending Mail",
+      "config" : {
+        "task" : {
+          "name" : "<%=ivy.cms.co(\"/Tasks/name\")%>",
+          "description" : "<%=ivy.cms.co(\"/Tasks/description\")%>",
+          "category" : "Technical/MailSending",
+          "responsible" : {
+            "activator" : "SYSTEM"
+          },
+          "delay" : "new Duration(ivy.var.mailLoopRepeatDelay + \"s\")",
+          "customFields" : [
+            { "name" : "HIDE", "type" : "STRING", "value" : "\"HIDE\"" }
+          ],
+          "notification" : {
+            "suppress" : true
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 1048, "y" : 208 },
+        "labelOffset" : { "x" : 65, "y" : 25 },
+        "description" : "throws error"
+      },
+      "connect" : [
+        { "id" : "f28", "to" : "f8", "via" : [ { "x" : 1048, "y" : 128 } ] }
+      ]
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "prepare attachments",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.mail.service.MailService;",
+            "",
+            "",
+            "in.attachments = MailService.prepareAttachments(in.mail.id);"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 632, "y" : 336 }
+      },
+      "connect" : [
+        { "id" : "f9", "to" : "f4" }
+      ]
+    }, {
+      "id" : "f21",
+      "type" : "ProcessAnnotation",
+      "name" : [
+        "Email sending process with error handling",
+        "- tries to send n-times with x-delay between",
+        "- creates admin error task if failed n-times",
+        "- admin task can be used to retry mail sending"
+      ],
+      "visual" : {
+        "at" : { "x" : 661, "y" : 37 },
+        "size" : { "width" : 406, "height" : 70 }
+      }
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "SendMailAsync",
+        "offset" : 80,
+        "size" : 608,
+        "lanes" : [ {
+            "name" : "error catch and retry",
+            "size" : 192,
+            "color" : "orange"
+          }, {
+            "name" : "happy path",
+            "size" : 152,
+            "color" : "green"
+          }, {
+            "name" : "error task for admin",
+            "size" : 264,
+            "color" : "red"
+          } ]
+      } ],
+    "colors" : {
+      "red" : "#ff0000",
+      "green" : "#7bd5ab",
+      "orange" : "#fbab3c"
+    }
+  }
+}

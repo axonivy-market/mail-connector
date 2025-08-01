@@ -1,0 +1,46 @@
+.iframe-wrapper, .iframe-wrapper>.iframe-mail-body {
+	display: flex;
+	flex-grow: 1;
+	resize: vertical;
+	overflow: hidden;
+	margin: 7px 8px;
+	padding: 0;
+	border-radius: 6px;
+	min-height: 9em;
+	max-height: 35em;
+}
+
+.iframe-wrapper {
+	border: 1px solid #D4D6D9;
+	height: 100%;
+}
+
+.iframe-wrapper>.iframe-mail-body {
+	border: 0px solid #D4D6D9;
+	background: transparent;
+}
+
+.width-20 {
+	width: 20%;
+}
+
+.width-80 {
+	width: 80%;
+}
+
+.ui-growl {
+  z-index: 999999 !important;
+  top: 20px;
+  right: 20px;
+  left: auto;
+  position: fixed;
+}
+
+/* height for PDF file preview in new mail modal dialog */
+.new-mail-pdf-preview > iframe {
+	height: 82vh;
+}
+
+.chip-hover {
+	cursor: pointer;
+}

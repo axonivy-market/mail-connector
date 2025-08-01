@@ -1,0 +1,18 @@
+body .ui-fileupload .ui-fileupload-buttonbar {
+	border: none;
+	padding: 0px;
+	vertical-align: baseline;
+	display: inline-flex
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button {
+	margin-right: 0;
+}
+
+body .ui-fileupload .ui-fileupload-content {
+	display: none;
+}
+
+.ui-fileupload {
+	display: inline-flex;
+}

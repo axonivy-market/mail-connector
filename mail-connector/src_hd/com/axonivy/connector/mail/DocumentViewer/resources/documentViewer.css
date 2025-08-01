@@ -1,0 +1,24 @@
+.cursor-zoom-in {
+	cursor: zoom-in;
+}
+
+.disable-pointer-events {
+	pointer-events: none;
+}
+
+.disable-user-select {
+	user-select: none;
+}
+
+/* sets fixed position to the bottom center of screen */
+.galleria-toolbar {
+	position: fixed;  
+	bottom: 0; 
+	left: 50%; 
+	transform: translateX(-50%);
+}
+
+/* Have the full screen galeria close button always on top */
+body .ui-galleria .ui-galleria-close  {
+	z-index: 10;
+}
