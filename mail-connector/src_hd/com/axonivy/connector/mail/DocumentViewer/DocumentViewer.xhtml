@@ -72,8 +72,7 @@
 		<h:outputText value="#{documentViewerBean.currentFile.name}"
 			styleClass="ellipsisText" />
 		<p:staticMessage summary="INFO"
-			detail="#{ivy.cms.co('/Dialogs/at/psa/cmt/main/component/DocumentViewer/PreviewNotAvailable')}"
-			styleClass="w-full" />
+			detail="#{ivy.cms.co('/Document/previewNotAvailable')}"/>
 	</h:panelGroup>
 </cc:implementation>
 

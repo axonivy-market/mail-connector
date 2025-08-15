@@ -12,7 +12,8 @@
 			<h:form id="form">
 				<p:messages />
 				<ic:com.axonivy.connector.mail.MailBrowser id="mailBrowserContainer"
-					mailBrowserId="form:mailBrowserContainer" caseId="#{data.caseId}" />
+					mailBrowserId="form:mailBrowserContainer" caseId="#{data.caseId}"
+					caseRef="#{caseBean.buildCaseReference(data.caseId)}" />
 				<br />
 				<div class="command-btns">
 					<p:link value="Back to Case list"

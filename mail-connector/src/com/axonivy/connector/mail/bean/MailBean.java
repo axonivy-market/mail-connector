@@ -3,8 +3,11 @@ package com.axonivy.connector.mail.bean;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +29,7 @@ import com.axonivy.connector.mail.enums.ResponseAction;
 import com.axonivy.connector.mail.model.MailLazyDataModel;
 import com.axonivy.connector.mail.service.MailService;
 import com.axonivy.connector.mail.utils.DateUtil;
+import com.axonivy.connector.mail.utils.EmailContentUtil;
 import com.axonivy.connector.mail.utils.TextUtil;
 
 import ch.ivyteam.ivy.environment.Ivy;
@@ -39,9 +43,11 @@ public class MailBean {
 	private MailLazyDataModel mailModel;
 	private MailService mailService;
 	private String caseId;
+	private String caseRef;
 	private java.util.List<Attachment> attachments;
 	private String allowFileTypes = Ivy.var().get("allowFileTypes");
 	private String maxUploadSize = Ivy.var().get("maxUploadSize");
+	private List<Attachment> inlineAtachments;
 
 	private static final Map<String, String> MIME_TYPE_ICON_MAP = new HashMap<>();
 
@@ -62,6 +68,9 @@ public class MailBean {
 		mailModel = new MailLazyDataModel(caseId);
 		mail = new Mail();
 		mail.setCaseId(caseId);
+		if (StringUtils.isNotBlank(caseRef)) {
+			mail.setSubject(caseRef);
+		}
 		attachments = new ArrayList<Attachment>();
 	}
 
@@ -106,23 +115,21 @@ public class MailBean {
 	 * Get mail body with embedded images
 	 */
 	public String getMailBodyWithEmbeddedImages() {
+		if (CollectionUtils.isNotEmpty(inlineAtachments)) {
+			for (final Attachment file : inlineAtachments) {
+				final String content = Base64.getEncoder().encodeToString(file.getContent());
+				final StringBuilder base64Content = new StringBuilder().append("data:image/")
+						.append(file.getDefaultExtension()).append(";base64,").append(content);
+				selectedMail.setBody(selectedMail.getBody().replace("cid:" + file.getContentId(), base64Content));
+			}
+		}
 		// Detect if it's HTML or plain text
-		if (!isHtml(selectedMail.getBody())) {
+		if (!EmailContentUtil.isHtml(selectedMail.getBody())) {
 			// Escape HTML and wrap in <pre> to preserve formatting
 			selectedMail.setBody("<pre>" + StringEscapeUtils.escapeHtml4(selectedMail.getBody()) + "</pre>");
 		}
 
 		return selectedMail.getBody();
-	}
-
-	/**
-	 * Checks whether the given text contains HTML tags.
-	 * 
-	 * @param text the input string to check
-	 * @return {@code true} if the input contains HTML tags; {@code false} otherwise
-	 */
-	private static boolean isHtml(String text) {
-		return text != null && text.trim().matches(Constants.HTML_REGEX);
 	}
 
 	/**
@@ -209,7 +216,13 @@ public class MailBean {
 	public void handleSelectMail(SelectEvent<Mail> event) {
 		selectedMail = event.getObject();
 		if (selectedMail != null) {
-			attachments = MailService.findMailAttachments(selectedMail.getId());
+			List<Attachment> allAttachments = MailService.findMailAttachments(selectedMail.getId());
+			attachments = allAttachments.stream()
+					.filter(a -> !a.getInlineAttachment()
+							&& !StringUtils.equals(a.getDefaultExtension(), Constants.EML_EXTENTION))
+					.collect(Collectors.toList());
+			inlineAtachments = allAttachments.stream().filter(a -> a.getInlineAttachment())
+					.collect(Collectors.toList());
 		}
 	}
 
@@ -267,6 +280,14 @@ public class MailBean {
 
 	public void setAttachments(java.util.List<Attachment> attachments) {
 		this.attachments = attachments;
+	}
+
+	public String getCaseRef() {
+		return caseRef;
+	}
+
+	public void setCaseRef(String caseRef) {
+		this.caseRef = caseRef;
 	}
 
 }

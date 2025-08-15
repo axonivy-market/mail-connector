@@ -1,6 +1,7 @@
 Button:
   abort: Abort
   cancel: Cancel
+  finish: Finish
   forward: Forward
   newMail: New Mail
   'no': 'No'
@@ -11,7 +12,7 @@ Button:
   'yes': 'Yes'
 Document:
   documentPreview: Document Preview
-  previewNotAvailable: Preview not available
+  previewNotAvailable: Preview not available, please download the file and open it with the application on your client
 Errors:
   failedToCacheFile: Failed to cache file
   failedToConvertToPdf: Failed to convert file to PDF
@@ -26,18 +27,22 @@ Labels:
   abortTaskMessage: Do you really want to abort this Task and end the Process?
   confirmation: Confirmation
   emailDetails: Email details
+  proceedTooltip: Finish the Task and end the Process
   resendConfirmMessage: Do you want to resend the mail <b>{0}</b> to <b>{1}; {2}</b>?
   retrySendMailMessage: Do you really want to retry to send this Mail?
   retryTooltip: Retry Mail sending
   status: Status
 Mail:
   Status:
+    assigned: Assigned
+    assignedIncomplete: Assigned incomplete
     failed: SMTP failed
     outbox: Outbox
+    refNotFound: Reference not found
     sent: Sent
+    skipped: Übergesprungen
   attachments: Attachments
   bcc: BCC
-  body: Body
   cc: CC
   from: From
   newMail: New Mail
@@ -55,6 +60,25 @@ NewMail:
     To: <b>To:</b>
   RE: 'RE:'
   newMail: New Email
+RetrieveMail:
+  NotificationTaskType:
+    RETRIEVE_EMAIL_NO_REFERENCE_FOUND:
+      category: Email/Inbound/Default/NoReferenceFound
+      description: A new mail without a Reference from ''{0}'' with subject ''{1}'' was received on {2}. No Reference was found. Please handle this mail manually.
+      name: Handle unclear Email
+    RETRIEVE_EMAIL_REFERENCE_FOUND:
+      category: Email/Inbound/Default/AssignedToCase
+      description: A new mail with Reference ''{3}'' from ''{0}'' with subject ''{1}'' was received on {2}. The Email was processed and attached to the case.
+      name: Email assigned for Case ''{3}''
+  connectorError: 'Getting error when retrieve mail from mailbox ''''{0}'''', exception: {1}'
+  contentError: 'Mail retrieve - content error handling: {0}.'
+  date: Date
+  incompleteMailError: 'Mail retrieve incomplete error: {0}, for Mail Subject: {1}, Mail From {2}, Attachment name {3}, content-type {4}, will be moved to folder: {5}.'
+  ivyRoleNotFound: Ivy role ''{0}'' not found.
+  processingMessage: '{0} [Email in mailbox ''''{1}'''' with subject ''''{2}'''' received on {3}]'
+  readingMailMessageError: Getting error when reading mail from server {0}, mailbox {1}, mail subject {2}, mail sender {3}
+  taskDesc: Task description
+  taskTitle: Task title
 Tasks:
   EmailFailAdminTask:
     description: Task for Mail Admin which will (try) to send the mail.

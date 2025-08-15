@@ -1,1 +1,6 @@
-*
+{
+  /PROCESS {
+    /HandleRetrieveMail "HandleRetrieveMailOverride"
+  }
+  /HTML_DIALOG *
+}

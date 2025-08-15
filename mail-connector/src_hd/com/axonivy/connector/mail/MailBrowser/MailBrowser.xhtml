@@ -12,7 +12,10 @@
 	<cc:attribute name="mailBrowserId" required="true"
 		shortDescription="The absolute client ID of the included component in the JSF view. For example 'form:mailBrowser'" />
 	<cc:attribute name="caseId"
-		shortDescription="Specifies the Case ID associated with the email. If not provided, all emails will be retrieved." />
+		shortDescription="Specifies the Case ID associated with the email." />
+	<cc:attribute name="caseRef"
+		shortDescription="Specifies the Case Reference associated with the email. Example: [Ref=C-2025-01], where C-2025-01 is the case code. 
+		It must match the regex defined in the caseReferenceRegex variable for receive email feature" />
 </cc:interface>
 
 <cc:implementation>
@@ -20,6 +23,8 @@
 	<h:panelGroup id="mailBrowser">
 		<c:set target="#{mailBean}" property="caseId"
 			value="#{cc.attrs.caseId}" />
+		<c:set target="#{mailBean}" property="caseRef"
+			value="#{cc.attrs.caseRef}" />
 		<f:event listener="#{mailBean.initMail}" type="preRenderComponent"></f:event>
 		<div class="flex justify-content-between">
 			<div>

@@ -6,6 +6,12 @@ public enum MailStatus {
 	OUTBOX("/Mail/Status/outbox"), 
 	SENT("/Mail/Status/sent"), 
 	SMTP_FAILED("/Mail/Status/failed"),
+	
+	// mail receive
+	ASSIGNED("/Mail/Status/assigned"), 
+	ASSIGN_INCMPLT("/Mail/Status/assignedIncomplete"),
+	SKIPPED("/Mail/Status/skipped"), 
+	REF_NOT_FOUND("/Mail/Status/refNotFound"),
 	;
 
 	private String cmsPath;

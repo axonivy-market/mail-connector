@@ -26,6 +26,10 @@
 					<h:outputText value="#{case.description}" />
 				</p:column>
 
+				<p:column headerText="Code" sortBy="#{case.code}">
+					<h:outputText value="#{case.code}" />
+				</p:column>
+
 				<p:column headerText="Action">
 					<p:link value="edit"
 						href="#{ivy.html.startref('197CF45768C992CF/editCase.ivp')}?caseId=#{case.id}" />

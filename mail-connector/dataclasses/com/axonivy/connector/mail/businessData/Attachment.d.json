@@ -35,5 +35,9 @@
     "name" : "mailId",
     "type" : "String",
     "modifiers" : [ "PERSISTENT" ]
+  }, {
+    "name" : "contentId",
+    "type" : "String",
+    "modifiers" : [ "PERSISTENT" ]
   } ]
 }

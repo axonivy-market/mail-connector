@@ -93,6 +93,12 @@ If it fails, retries based on the configured retry logic and generates another a
 
 ![Alt text](images/admin-task-detail.png)
 
+### Received Mail
+Retrieves all mails from the mailbox whose subject matches the pattern defined in the `subjectMatches` variable.
+
+If the mail contains a valid case reference in the subject (as defined in the `caseReferenceRegex` variable), it is moved to the `processedFolderName` folder; otherwise, it is moved to the `errorFolderName` folder.
+
+After the email is processed, a task is created for user with Role defined in the `retrieveMailTaskRole` variable.
 
 ## Setup
 1. Configure Maximum Request Body Size
@@ -118,3 +124,7 @@ If it fails, retries based on the configured retry logic and generates another a
 ```
 @variables.yaml@
 ```
+
+3. Set up folders in your mailbox
+
+	If you are using the received mail feature, create two folders in your mailbox as configured in the `processedFolderName` and `errorFolderName` variables

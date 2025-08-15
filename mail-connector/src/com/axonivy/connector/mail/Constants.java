@@ -18,4 +18,10 @@ public class Constants {
 	public static final String ICON_EXCEL = "pi-file-excel";
 	public static final String ICON_WORD = "pi-file-word";
 	public static final String ICON_DEFAULT = "pi-file";
+	public static final String COMMA = ",";
+	public static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator();
+	public static final String TEXT_HTML = "html";
+	public static final String DOT = ".";
+	public static final String EML_EXTENTION = "eml";
+	public static final int DEFAULT_SMALL_STRING_LENGTH = 50;
 }

@@ -13,14 +13,12 @@
     "modifiers" : [ "PERSISTENT" ]
   }, {
     "name" : "exceptionText",
-    "type" : "String",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "String"
   }, {
     "name" : "retryAction",
     "type" : "com.axonivy.connector.mail.enums.RetryAction"
   }, {
     "name" : "attachments",
-    "type" : "List<File>",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "List<File>"
   } ]
 }

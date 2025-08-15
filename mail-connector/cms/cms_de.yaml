@@ -1,6 +1,7 @@
 Button:
   abort: Abort
   cancel: Abbrechen
+  finish: Finish
   forward: Weiterleiten
   newMail: Neue E-Mail
   'no': Nein
@@ -26,15 +27,20 @@ Labels:
   abortTaskMessage: Möchten Sie diese Aufgabe wirklich abbrechen und den Prozess beenden?
   confirmation: Bestätigen
   emailDetails: E-Mail-Details
+  proceedTooltip: Finish the Task and end the Process
   resendConfirmMessage: Möchten Sie die E-Mail <b>{0}</b> erneut an <b>{1}; {2}</b> senden
   retrySendMailMessage: Möchten Sie wirklich versuchen, diese E-Mail erneut zu senden?
   retryTooltip: E-Mail-Versand erneut versuchen
   status: Status
 Mail:
   Status:
+    assigned: Zugewiesen
+    assignedIncomplete: ''
     failed: SMTP_Gescheitert
     outbox: Postausgang
+    refNotFound: Referenz nicht gefunden
     sent: Gesendet
+    skipped: Übergesprungen
   attachments: Anhänge
   bcc: BCC
   body: Nachrichtentext
@@ -54,7 +60,26 @@ NewMail:
     Subject: <b>Betreff:</b>
     To: <b>An:</b>
   RE: 'AW:'
+RetrieveMail:
+  NotificationTaskType:
+    RETRIEVE_EMAIL_NO_REFERENCE_FOUND:
+      category: Email/Inbound/Default/NoReferenceFound
+      description: Eine neue Mail ohne Referenz von ''{0}'' mit Betreff ''{1}'' wurde am {2} empfangen. Es wurde keine Referenz gefunden. Bitte bearbeiten Sie diese Mail manuell.
+      name: Handle unclear Email
+    RETRIEVE_EMAIL_REFERENCE_FOUND:
+      category: Email/Inbound/Default/AssignedToCase
+      description: Eine neue E-Mail mit Referenz ''{3}'' von ''{0}'' mit Betreff ''{1}'' wurde am {2} empfangen. Die E-Mail wurde verarbeitet und an den Fall angehängt.
+      name: E-Mail zugewiesen für Fall ''{3}''
+  connectorError: 'Getting error when retrieve mail from mailbox ''''{0}'''', exception: {1}'
+  contentError: 'Mail retrieve - content error handling: {0}.'
+  date: Date
+  incompleteMailError: 'Mail retrieve incomplete error: {0}, for Mail Subject: {1}, Mail From {2}, Attachment name {3}, content-type {4}, will be moved to folder: {5}.'
+  ivyRoleNotFound: Ivy role ''{0}'' not found.
   newMail: Neue E-Mail
+  processingMessage: '{0} [Email in mailbox ''''{1}'''' with subject ''''{2}'''' received on {3}]'
+  readingMailMessageError: Getting error when reading mail from server {0}, mailbox {1}, mail subject {2}, mail sender {3}
+  taskDesc: Task description
+  taskTitle: Task title
 Tasks:
   EmailFailAdminTask:
     name: Email Fail Admin Task
