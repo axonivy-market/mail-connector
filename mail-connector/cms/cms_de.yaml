@@ -59,15 +59,15 @@ Tasks:
   EmailFailAdminTask:
     name: Email Fail Admin Task
   RetrySendingMail:
-    description: Retry sending mail
-    name: Retry sending mail
+    description: Retry sending e-mail
+    name: Retry sending e-mail
   SendingMail:
-    description: Sending Mail
-    name: Sending Mail
-  description: Technical process to send Mails asynchronously with automatic retry and admin task handling.
+    description: Sending E-mail
+    name: Sending E-mail
+  description: Technical process to send E-mails asynchronously with automatic retry and admin task handling.
   name: Send Mail Async
 Template:
-  resendSection: <div><<<<&nbsp;&nbsp;Das ist die Kopie eines Mails, das bereits einmal versendet wurde&nbsp;&nbsp;>>>>></div><br><div>Originale Nachricht:</div>
+  resendSection: <div><<<<&nbsp;&nbsp;Das ist die Kopie eines E-mails, das bereits einmal versendet wurde&nbsp;&nbsp;>>>>></div><br><div>Originale Nachricht:</div>
 Validation:
   InvalidEmail:
     message: Keine gültige E-Mail Adresse.

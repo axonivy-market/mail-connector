@@ -2,12 +2,12 @@ Button:
   abort: Abort
   cancel: Cancel
   forward: Forward
-  newMail: New Mail
+  newMail: New Email
   'no': 'No'
   reply: Reply
   resend: Resend
   retry: Retry
-  send: Send Mail
+  send: Send Email
   'yes': 'Yes'
 Document:
   documentPreview: Document Preview
@@ -26,9 +26,9 @@ Labels:
   abortTaskMessage: Do you really want to abort this Task and end the Process?
   confirmation: Confirmation
   emailDetails: Email details
-  resendConfirmMessage: Do you want to resend the mail <b>{0}</b> to <b>{1}; {2}</b>?
-  retrySendMailMessage: Do you really want to retry to send this Mail?
-  retryTooltip: Retry Mail sending
+  resendConfirmMessage: Do you want to resend the email <b>{0}</b> to <b>{1}; {2}</b>?
+  retrySendMailMessage: Do you really want to retry to send this Email?
+  retryTooltip: Retry Email sending
   status: Status
 Mail:
   Status:
@@ -40,7 +40,7 @@ Mail:
   body: Body
   cc: CC
   from: From
-  newMail: New Mail
+  newMail: New Email
   sent: Sent
   subject: Subject
   to: To
@@ -57,16 +57,16 @@ NewMail:
   newMail: New Email
 Tasks:
   EmailFailAdminTask:
-    description: Task for Mail Admin which will (try) to send the mail.
+    description: Task for Email Admin which will (try) to send the email.
     name: Email Fail Admin Task
   RetrySendingMail:
-    description: Retry sending mail
-    name: Retry Sending Mail
+    description: Retry sending email
+    name: Retry Sending Email
   SendingMail:
-    description: Sending mail
-    name: Sending Mail
-  description: Technical process to send Mails asynchronously with automatic retry and admin task handling.
-  name: Send Mail Async
+    description: Sending email
+    name: Sending Email
+  description: Technical process to send Emails asynchronously with automatic retry and admin task handling.
+  name: Send Email Async
 Template:
   resendSection: <div><<<<&nbsp;&nbsp;This is a copy of an email that has already been sent&nbsp;&nbsp;>>>>></div><br><div>Original message:</div>
 Validation:

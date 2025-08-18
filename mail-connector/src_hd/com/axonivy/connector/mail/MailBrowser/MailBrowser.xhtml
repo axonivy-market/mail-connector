@@ -33,7 +33,7 @@
 			</div>
 		</div>
 
-		<!-- Mail list table -->
+		<!-- Email list table -->
 		<p:dataTable var="mail" value="#{mailBean.mailModel}"
 			rowIndexVar="rowIndex" id="mailTable" paginator="true"
 			paginatorPosition="bottom" rows="5"
@@ -105,8 +105,8 @@
 					</div>
 				</c:if>
 
-				<!-- Mail Details -->
-				<p:fieldset id="mailDetail" legend="Mail Details" toggleable="true"
+				<!-- Email Details -->
+				<p:fieldset id="mailDetail" legend="Email Details" toggleable="true"
 					toggleSpeed="500" styleClass="mt-4">
 					<h:panelGrid columns="1" styleClass="w-full">
 						<h:panelGroup layout="block" styleClass="p-1">
@@ -177,7 +177,7 @@
 			skipDetailIfEqualsSummary="true" widgetVar="validationGrowlWidget"
 			escape="true" globalOnly="true" />
 
-		<!-- Mail Dialog -->
+		<!-- Email Dialog -->
 		<ic:com.axonivy.connector.mail.NewMailDialog id="newMail"
 			mail="#{mailBean.mail}"
 			newMailDialogId="#{cc.attrs.mailBrowserId}:newMail" />
